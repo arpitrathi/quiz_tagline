@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>TAG Lines</title>
+	<style>
+		.container {
+			margin: auto;
+			text-align: center;
+			width: 50%;
+		}
+		button {
+			height: 50px;
+			width: 100px;
+		}
+		input {
+			margin:auto;
+			
+		}
+	</style>
+</head>
+<body>
+<script type="text/javascript">
+	var tagLines = ["Cutting through complexity", 
+		"Building a Better Working World",
+		"Tomorrow Starts Here",
+		"A better way forward",
+		"World's Largest Online Travel Company",
+		"Horizonext",
+		"Aapne chaha humne kiya",
+		"Thinking of you",
+		"We move the world",
+		"Explore beyond limits",
+		"Touching lives, improving life",
+		"Passion to Perform",
+		"The Standard of the World",
+		"Innovation that excites",
+		"Vorsprung Durch Technik",
+		"Quality Revolution",
+		"Drive the change",
+		"Quietly Brilliant",
+		"The Worldwide Leader in News",
+		"Less Complexity. More Innovation",
+		"Shuruaat sahi toh din sahi",
+		"Make it matter",
+		"Imagination at Work",
+		"Hello Life",
+		"Solutions Powered by People",
+		"Leading Innovation",
+		"Building Tomorrow's Enterprise",
+		"Distinctly Ahead",
+		"Applying Thought",
+		"Your Potential. Our Passion",
+		"Delighting You Always",
+		"Bank aisa dost jaisa",
+		"New Thinking. New Possibilities",
+		"More people around the world go with Visa",
+		"For those who do",
+		"For those who do",
+		"Zindagi Mein Life",
+		"A Better Life. A Better World",
+		"Better Sound through Research",
+		"Open Up",
+		"Way of Life",
+		"Ek dum asli Indian",
+		"Purity Guaranteed",
+		"At the heart of the image",
+		"Sab par Dish sawaar hai",
+		"Sheer Driving Technology",
+		"Journalism of Courage",
+		"Delivering Lifestyle",
+		"The Banker to every Indian",
+		"The power of dreams",
+		"We understand your world",
+		"Badhti ka naam zindagi",
+		"Power to you",
+		"Khayal aapka",
+		"The power to do more",
+		"How Alive Are You?",
+		"Want it. Get it.",
+		"Find New Roads",
+		"Bachatey Raho",
+		"The name you can BANK upon",
+		"Nothing like anything",
+		"Stay New",
+		"Don't leave home without it",
+		"Made with Nature",
+		"Pagalpanti bhi zaroori hai",
+		"Make.Believe",
+		"The Taste of India",
+		"Life's Good",
+		"Connecting People",
+		"Just Do It",
+		"I'm lovin' it",
+		"Think Different",
+		"Eat fresh.",
+		"The best a man can get",
+		"Das Auto",
+		"Tedha hai par mera hai",
+		"So good",
+		"Clear Hai",
+		"Bade Aaram Se",
+		"Reinvent",
+		"Good Food. Good Life",
+		"Open Happiness",
+		"Darr ke aage jeet hai",
+		"Innovation. You",
+		"Citi Never Sleeps",
+		"Fit Hai Boss",
+		"The Online Megastore",
+		"Aaj kuch toofani karte hai",
+		"Apna Luck Pehen ke Chalo",
+		"Har mausam aam",
+		"Simply Clever",
+		"Pal banaye Magical",
+		"Because we're worth it",
+		"King of Beers",
+		"The best or nothing"]
+
+	var count = tagLines.length;
+	var tagsIndex = [];
+	var game_count = 6;
+	var timerInterval = null;
+	var seconds = 30;
+	var str1 = "Timer : "+seconds+" Sec";
+	var answers = ["","","","","","",""];
+
+	function change_value(){
+		seconds--;
+		var str2 = "Timer : "+seconds+" Sec";
+		document.getElementById("timer").innerHTML = str2;
+		if( seconds == 0 ) {
+			end_game();
+		}
+	}
+	function start_game() {
+		seconds = 30;
+		clearInterval(timerInterval);
+		game_count = 6;
+		tagsIndex = [];
+		answers=[];
+		var randIndex = Math.floor(Math.random()*count);
+		var text = tagLines[randIndex];
+		tagsIndex[6 - game_count] = (randIndex);
+		document.getElementById("tagname").innerHTML = game_count +": "+ text;
+		document.getElementById("timer").innerHTML = str1;
+		var z = document.getElementById("answer_text");
+		z.value="";
+		z.style.display="block";
+		var x = document.getElementById("start_button_div");
+		x.style.display = "none";
+		var y = document.getElementById("var_buttons_div");
+		y.style.display="block";
+		
+		timerInterval=setInterval(change_value, 1000);
+		// body..._count
+	}
+	function get_unique_index(randInd) {
+		var randIndex=randInd;
+		var same = false;
+		for (var i = tagsIndex.length - 1; i >= 0; i--) {
+			console.log(i, " val: ", tagsIndex[i], "randIndex: ", randIndex);
+			if (tagsIndex[i]==randIndex)
+			{
+				randIndex=Math.floor(Math.random()*count);				same=true;
+				break;
+			}
+		}
+
+		if(same) {
+			randIndex = get_unique_index(randIndex);
+		} 
+		return randIndex;
+	}
+
+	function next_option(){
+		var answer = document.getElementById("answer_text");
+		var answer_text = answer.value;
+		answers[6 - game_count] = answer_text;
+		answer.value="";
+		game_count -= 1;
+		console.log("Game Count: ", game_count);
+		var randIndex = Math.floor(Math.random()*count);
+		randIndex = get_unique_index(randIndex);
+		console.log(randIndex);
+		tagsIndex[6-game_count] = (randIndex);
+		var text = tagLines[randIndex];
+		document.getElementById("tagname").innerHTML = game_count+": "+text;
+
+		if(game_count==1) {	
+			var x = document.getElementById("end_button_div");
+			x.style.display = "block";
+			var y = document.getElementById("var_buttons_div");
+			console.log(y);
+			y.style.display = "none";
+
+		}
+	}
+	function end_game() {
+		clearInterval(timerInterval);
+		var answer = document.getElementById("answer_text");
+		var answer_text = answer.value;
+		answers[6 - game_count] = answer_text;
+
+		document.getElementById("timer").innerHTML = "Timer : "+seconds+" Sec";
+		var AllTagsShown="";
+		var len = tagsIndex.length;
+		console.log(tagsIndex);
+		for (var i = 0; i<len; i++) {
+			AllTagsShown += (i+1)+": "+tagLines[tagsIndex[i]]+" : "+answers[i]+"<br>";
+			console.log(AllTagsShown);
+		}
+		document.getElementById("tagname").innerHTML = AllTagsShown;	
+		tagsIndex = [];
+		var y = document.getElementById("var_buttons_div");
+		console.log(y);
+		y.style.display = "none";
+		var x = document.getElementById("end_button_div");
+		x.style.display = "none";
+		var y = document.getElementById("start_button_div");
+		y.style.display = "block";
+		var z = document.getElementById("answer_text");
+		z.style.display="none";
+		
+	}
+</script>
+<div class="container">
+<p><h1 id="tagname">Start The Game</h1>
+<input type="text" name="answer" id="answer_text" style="display: none"></br><h1 id="timer">Timer : 30 Sec </h1></p>
+<div id="var_buttons_div" style="display: none">
+<button id="next_option" type="button"  onclick="next_option()">Next</button>
+</div>
+<div id="start_button_div">
+<button id="start_game" type="button" onclick="start_game()">New
+Game</button>
+</div>
+<div id="end_button_div" style="display: none">
+<button id="end_game" type="button" onclick="end_game()">End Game</button>
+</div>
+</div>
+</body>
+</html>
